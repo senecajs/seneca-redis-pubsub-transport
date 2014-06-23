@@ -17,8 +17,7 @@ describe('redis-transport', function() {
       .add( 'c:1', function(args,done){done(null,{s:'1-'+args.d})} )
       .listen({type:'redis'})
       .ready( function() {
-        fin()
-/*
+
         require('seneca')({log:'silent'})
           .use('..')
           .client({type:'redis'})
@@ -38,7 +37,6 @@ describe('redis-transport', function() {
               })
             })
           })
-*/
       })
   })
 

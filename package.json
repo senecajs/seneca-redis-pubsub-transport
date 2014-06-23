@@ -18,6 +18,8 @@
   "author": "Richard Rodger (http://richardrodger.com)",
   "license": "MIT",
   "dependencies": {
+    "lru-cache": "^2.5.0",
+    "redis": "^0.10.3",
     "underscore": "^1.6.0"
   },
   "peerDependencies": {
