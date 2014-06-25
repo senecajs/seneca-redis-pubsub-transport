@@ -10,7 +10,6 @@ var stream = require('stream')
 
 var _        = require('underscore')
 var redis    = require('redis')
-var lrucache = require('lru-cache')
 
 
 
@@ -52,8 +51,8 @@ module.exports = function( options ) {
     var listen_options = _.extend({},options[args.type],args)
     //console.log('LISTEN OPTS',listen_options)
 
-    var redis_in  = redis.createClient(args.port,args.host)
-    var redis_out = redis.createClient(args.port,args.host)
+    var redis_in  = redis.createClient(listen_options.port,listen_options.host)
+    var redis_out = redis.createClient(listen_options.port,listen_options.host)
 
     redis_in.on('message',function(channel,msgstr){
       var restopic = channel.replace(/_req$/,'_res')
@@ -66,6 +65,15 @@ module.exports = function( options ) {
         seneca.log.error('json-parse',e,msgstr)
       }
 
+      tu.handle_request( seneca, data, listen_options, function(out){
+        if( out ) {
+          var outstr = JSON.stringify(out)
+          //console.log('PUBLISH RES '+restopic+' '+outstr)
+          redis_out.publish(restopic,outstr)
+        }
+      })
+
+      /*
       if( 'act' == data.kind ) {
         var output = tu.prepare_response( seneca, data )
 
@@ -89,6 +97,7 @@ module.exports = function( options ) {
       else {
         seneca.log.error('listen', 'kind-error', listen_options, seneca, 'not-act', channel, data)
       }
+       */
     })
 
 
@@ -112,6 +121,9 @@ module.exports = function( options ) {
     //console.log('CLIENT OPTS',client_options)
 
 
+    //tu.make_client( make_send, args, client_options, clientdone )
+
+
     var client = tu.make_anyclient(make_send({},'any'))
 
 
@@ -127,40 +139,22 @@ module.exports = function( options ) {
     clientdone(null,client)
 
 
-    function make_send( spec, topic ) {
-      var callmap = lrucache( client_options.callmax )
 
+    function make_send( spec, topic ) {
       var redis_in  = redis.createClient(args.port,args.host)
       var redis_out = redis.createClient(args.port,args.host)
 
       redis_in.on('message',function(channel,msgstr){
+
         // TODO: export parseJSON, stringifyJSON, safe versions
         var input = JSON.parse(msgstr)
-        input = tu.handle_response( seneca, input, client_options )
-        if( !input ) return;
-
-        if( 'res' == input.kind ) {
-          var call = callmap.get(input.id)
-
-          if( call ) {
-            callmap.del(input.id)
-
-            call.done( input.error || null, input.res )
-          }
-        }
+        tu.handle_response( seneca, input, client_options )
       })
 
       redis_in.subscribe(msgprefix+topic+'_res')
 
       return function( args, done ) {
-        var outmsg = tu.prepare_request( seneca, args )
-
-        var callmeta = {
-          done: _.bind(done,this)
-        }
-
-        callmap.set(outmsg.id,callmeta) 
-
+        var outmsg = tu.prepare_request( this, args, done )
 
         var outstr   = JSON.stringify(outmsg)
         var reqtopic = msgprefix+topic+'_req'
