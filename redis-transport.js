@@ -17,7 +17,7 @@ module.exports = function( options ) {
   var seneca = this
   var plugin = 'redis-transport'
 
-  var so = seneca.options()
+  var so        = seneca.options()
   var msgprefix = so.transport.msgprefix
 
   options = seneca.util.deepextend(
@@ -45,68 +45,27 @@ module.exports = function( options ) {
 
 
 
-
   function hook_listen_redis( args, done ) {
-    var seneca = this
+    var seneca         = this
+    var type           = args.type
     var listen_options = _.extend({},options[args.type],args)
-    //console.log('LISTEN OPTS',listen_options)
 
     var redis_in  = redis.createClient(listen_options.port,listen_options.host)
     var redis_out = redis.createClient(listen_options.port,listen_options.host)
 
     redis_in.on('message',function(channel,msgstr){
-      var restopic = channel.replace(/_req$/,'_res')
-
-      try {
-        var data = JSON.parse(msgstr)
-      }
-      catch(e) {
-        // TODO: standardize this over transports
-        seneca.log.error('json-parse',e,msgstr)
-      }
+      var restopic = channel.replace(/_act$/,'_res')
+      var data     = tu.parseJSON( seneca, 'listen-'+type, msgstr )
 
       tu.handle_request( seneca, data, listen_options, function(out){
-        if( out ) {
-          var outstr = JSON.stringify(out)
-          //console.log('PUBLISH RES '+restopic+' '+outstr)
-          redis_out.publish(restopic,outstr)
-        }
+        var outstr = tu.stringifyJSON( seneca, 'listen-redis', out )
+        redis_out.publish(restopic,outstr)
       })
-
-      /*
-      if( 'act' == data.kind ) {
-        var output = tu.prepare_response( seneca, data )
-
-        try {
-          var inargs = tu.handle_entity( data.act )
-          seneca.act( data.act, function( err, out ) {
-            tu.update_output( output, err, out )
-
-            var outstr = JSON.stringify( output )
-            redis_out.publish( restopic, outstr )
-          })
-        }
-        catch(e) {
-          tu.catch_act_error( seneca, e, listen_options, data, output )
-
-          var outstr = JSON.stringify(output)
-          //console.log('PUBLISH RES '+restopic+' '+outstr)
-          redis_out.publish(restopic,outstr)
-        }
-      }
-      else {
-        seneca.log.error('listen', 'kind-error', listen_options, seneca, 'not-act', channel, data)
-      }
-       */
     })
-
 
     tu.listen_topics( seneca, args, listen_options, function(topic) {
-      var reqtopic = topic+'_req'
-      //console.log('SUBSCRIBE REQ '+reqtopic)
-      redis_in.subscribe( reqtopic )
+      redis_in.subscribe( topic+'_act' )
     })
-
 
     seneca.log.info('listen', 'open', listen_options, seneca)
 
@@ -114,52 +73,29 @@ module.exports = function( options ) {
   }
 
 
-
   function hook_client_redis( args, clientdone ) {
-    var seneca = this
-    var client_options = _.extend({},options[args.type],args)
-    //console.log('CLIENT OPTS',client_options)
+    var seneca         = this
+    var type           = args.type
+    var client_options = _.extend({},options[type],args)
 
-
-    //tu.make_client( make_send, args, client_options, clientdone )
-
-
-    var client = tu.make_anyclient(make_send({},'any'))
-
-
-    var pins = tu.resolve_pins(args)
-    if( pins ) {
-      var argspatrun  = tu.make_argspatrun(pins)
-      var resolvesend = tu.make_resolvesend({},make_send)
-
-      client = tu.make_pinclient( resolvesend, argspatrun )
-    }
-
-    seneca.log.info('client', 'redis', client_options, pins||'any', seneca)
-    clientdone(null,client)
-
-
+    tu.make_client( make_send, client_options, clientdone )
 
     function make_send( spec, topic ) {
-      var redis_in  = redis.createClient(args.port,args.host)
-      var redis_out = redis.createClient(args.port,args.host)
+      var redis_in  = redis.createClient(client_options.port,client_options.host)
+      var redis_out = redis.createClient(client_options.port,client_options.host)
 
       redis_in.on('message',function(channel,msgstr){
-
-        // TODO: export parseJSON, stringifyJSON, safe versions
-        var input = JSON.parse(msgstr)
+        var input = tu.parseJSON(seneca,'client-'+type,msgstr)
         tu.handle_response( seneca, input, client_options )
       })
 
-      redis_in.subscribe(msgprefix+topic+'_res')
+      redis_in.subscribe( msgprefix+topic+'_res' )
 
       return function( args, done ) {
         var outmsg = tu.prepare_request( this, args, done )
 
-        var outstr   = JSON.stringify(outmsg)
-        var reqtopic = msgprefix+topic+'_req'
-        //console.log('PUBLISH '+reqtopic+' '+outstr)
-        redis_out.publish(reqtopic,outstr)
+        var outstr   = tu.stringifyJSON( seneca, 'client-redis', outmsg )
+        redis_out.publish( msgprefix+topic+'_act', outstr )
       }
     }
   }  
