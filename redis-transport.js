@@ -12,13 +12,11 @@ var _        = require('underscore')
 var redis    = require('redis')
 
 
-
 module.exports = function( options ) {
   var seneca = this
   var plugin = 'redis-transport'
 
-  var so        = seneca.options()
-  var msgprefix = so.transport.msgprefix
+  var so = seneca.options()
 
   options = seneca.util.deepextend(
     {
@@ -48,7 +46,7 @@ module.exports = function( options ) {
   function hook_listen_redis( args, done ) {
     var seneca         = this
     var type           = args.type
-    var listen_options = _.extend({},options[args.type],args)
+    var listen_options = seneca.util.clean(_.extend({},options[type],args))
 
     var redis_in  = redis.createClient(listen_options.port,listen_options.host)
     var redis_out = redis.createClient(listen_options.port,listen_options.host)
@@ -58,7 +56,8 @@ module.exports = function( options ) {
       var data     = tu.parseJSON( seneca, 'listen-'+type, msgstr )
 
       tu.handle_request( seneca, data, listen_options, function(out){
-        var outstr = tu.stringifyJSON( seneca, 'listen-redis', out )
+        if( null == out ) return;
+        var outstr = tu.stringifyJSON( seneca, 'listen-'+type, out )
         redis_out.publish(restopic,outstr)
       })
     })
@@ -76,11 +75,11 @@ module.exports = function( options ) {
   function hook_client_redis( args, clientdone ) {
     var seneca         = this
     var type           = args.type
-    var client_options = _.extend({},options[type],args)
+    var client_options = seneca.util.clean(_.extend({},options[type],args))
 
     tu.make_client( make_send, client_options, clientdone )
 
-    function make_send( spec, topic ) {
+    function make_send( spec, topic, send_done ) {
       var redis_in  = redis.createClient(client_options.port,client_options.host)
       var redis_out = redis.createClient(client_options.port,client_options.host)
 
@@ -89,14 +88,14 @@ module.exports = function( options ) {
         tu.handle_response( seneca, input, client_options )
       })
 
-      redis_in.subscribe( msgprefix+topic+'_res' )
+      redis_in.subscribe( topic+'_res' )
 
-      return function( args, done ) {
+      send_done( null, function( args, done ) {
         var outmsg = tu.prepare_request( this, args, done )
+        var outstr = tu.stringifyJSON( seneca, 'client-redis', outmsg )
 
-        var outstr   = tu.stringifyJSON( seneca, 'client-redis', outmsg )
-        redis_out.publish( msgprefix+topic+'_act', outstr )
-      }
+        redis_out.publish( topic+'_act', outstr )
+      })
     }
   }  
 
