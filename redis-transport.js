@@ -51,6 +51,9 @@ module.exports = function( options ) {
     var redis_in  = redis.createClient(listen_options.port,listen_options.host)
     var redis_out = redis.createClient(listen_options.port,listen_options.host)
 
+    handle_events(redis_in)
+    handle_events(redis_out)
+
     redis_in.on('message',function(channel,msgstr){
       var restopic = channel.replace(/_act$/,'_res')
       var data     = tu.parseJSON( seneca, 'listen-'+type, msgstr )
@@ -65,6 +68,16 @@ module.exports = function( options ) {
     tu.listen_topics( seneca, args, listen_options, function(topic) {
       redis_in.subscribe( topic+'_act' )
     })
+
+
+    seneca.add('role:seneca,cmd:close',function( close_args, done ) {
+      var closer = this
+
+      redis_in.end()
+      redis_out.end()
+      closer.prior(close_args,done)
+    })
+
 
     seneca.log.info('listen', 'open', listen_options, seneca)
 
@@ -83,6 +96,9 @@ module.exports = function( options ) {
       var redis_in  = redis.createClient(client_options.port,client_options.host)
       var redis_out = redis.createClient(client_options.port,client_options.host)
 
+      handle_events(redis_in)
+      handle_events(redis_out)
+
       redis_in.on('message',function(channel,msgstr){
         var input = tu.parseJSON(seneca,'client-'+type,msgstr)
         tu.handle_response( seneca, input, client_options )
@@ -96,9 +112,27 @@ module.exports = function( options ) {
 
         redis_out.publish( topic+'_act', outstr )
       })
+
+      seneca.add('role:seneca,cmd:close',function( close_args, done ) {
+        var closer = this
+
+        redis_in.end()
+        redis_out.end()
+        closer.prior(close_args,done)
+      })
+
     }
   }  
 
+
+  function handle_events( redisclient ) {
+    // Die if you can't connect initially
+    redisclient.on('ready', function() {
+      redisclient.on('error', function(err){
+        seneca.log.error('transport','redis',err)
+      })
+    })
+  }
 
   return {
     name: plugin,
