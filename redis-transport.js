@@ -66,6 +66,7 @@ module.exports = function( options ) {
     })
 
     tu.listen_topics( seneca, args, listen_options, function(topic) {
+      seneca.log.debug('listen', 'subscribe', topic+'_act', listen_options, seneca)
       redis_in.subscribe( topic+'_act' )
     })
 
@@ -104,6 +105,7 @@ module.exports = function( options ) {
         tu.handle_response( seneca, input, client_options )
       })
 
+      seneca.log.debug('client', 'subscribe', topic+'_res', client_options, seneca)
       redis_in.subscribe( topic+'_res' )
 
       send_done( null, function( args, done ) {
