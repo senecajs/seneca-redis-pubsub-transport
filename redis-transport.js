@@ -91,7 +91,7 @@ module.exports = function( options ) {
     var type           = args.type
     var client_options = seneca.util.clean(_.extend({},options[type],args))
 
-    tu.make_client( make_send, client_options, clientdone )
+    tu.make_client( seneca, make_send, client_options, clientdone )
 
     function make_send( spec, topic, send_done ) {
       var redis_in  = redis.createClient(client_options.port,client_options.host)
