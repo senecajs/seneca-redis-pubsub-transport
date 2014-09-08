@@ -48,10 +48,13 @@ module.exports = function( options ) {
     var type           = args.type
     var listen_options = seneca.util.clean(_.extend({},options[type],args))
 
-    var redis_in  = redis.createClient(listen_options.port,listen_options.host)
-    var redis_out = redis.createClient(listen_options.port,listen_options.host)
+    var redis_in  = redis.createClient(listen_options.port,listen_options.host, listen_options.options || {})
+    var redis_out = redis.createClient(listen_options.port,listen_options.host, listen_options.options || {})
+	  listen_options.password && redis_in.auth(listen_options.password)
+	  listen_options.password && redis_out.auth(listen_options.password)
 
-    handle_events(redis_in)
+
+	  handle_events(redis_in)
     handle_events(redis_out)
 
     redis_in.on('message',function(channel,msgstr){
@@ -94,10 +97,13 @@ module.exports = function( options ) {
     tu.make_client( seneca, make_send, client_options, clientdone )
 
     function make_send( spec, topic, send_done ) {
-      var redis_in  = redis.createClient(client_options.port,client_options.host)
-      var redis_out = redis.createClient(client_options.port,client_options.host)
+      var redis_in  = redis.createClient(client_options.port,client_options.host, listen_options.options || {})
+      var redis_out = redis.createClient(client_options.port,client_options.host, listen_options.options || {})
+	    client_options.password && redis_in.auth(client_options.password)
+	    client_options.password && redis_out.auth(client_options.password)
 
-      handle_events(redis_in)
+
+	    handle_events(redis_in)
       handle_events(redis_out)
 
       redis_in.on('message',function(channel,msgstr){
