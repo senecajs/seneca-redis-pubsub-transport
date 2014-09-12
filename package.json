@@ -1,6 +1,6 @@
 {
   "name": "seneca-redis-transport",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Seneca Redis transport",
   "main": "redis-transport.js",
   "scripts": {
@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "mocha": "~1.20.1",
-    "seneca": "~0.5.17",
+    "seneca": "~0.5.20",
     "seneca-transport-test": "~0.1.2"
   },
   "files": [
