@@ -29,7 +29,7 @@ module.exports = function( options ) {
     },
     so.transport,
     options)
-  
+
 
   var tu = seneca.export('transport/utils')
 
@@ -110,7 +110,7 @@ module.exports = function( options ) {
 
       send_done( null, function( args, done ) {
         var outmsg = tu.prepare_request( this, args, done )
-        var outstr = tu.stringifyJSON( seneca, 'client-redis', outmsg )
+        var outstr = tu.stringifyJSON( seneca, 'client-'+type, outmsg )
 
         redis_out.publish( topic+'_act', outstr )
       })
@@ -124,7 +124,7 @@ module.exports = function( options ) {
       })
 
     }
-  }  
+  }
 
 
   function handle_events( redisclient ) {
