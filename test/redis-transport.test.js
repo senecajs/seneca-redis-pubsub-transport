@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Richard Rodger */
+/* Copyright (c) 2014-2015 Richard Rodger */
 "use strict";
 
 

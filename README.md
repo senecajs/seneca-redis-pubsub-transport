@@ -1,5 +1,4 @@
-seneca-redis-transport - a [Seneca](http://senecajs.org) plugin
-======================================================
+# seneca-redis-transport - a [Seneca](http://senecajs.org) plugin
 
 ## Seneca Redis Transport Plugin
 
@@ -11,11 +10,7 @@ receive all messages.
 
 ALSO READ: The [seneca-transport](http://github.com/rjrodger/seneca-transport) readme has lots of introductory material about message transports. Start there if you have not used a message transport before.
 
-
 [![Build Status](https://travis-ci.org/rjrodger/seneca-transport.png?branch=master)](https://travis-ci.org/rjrodger/seneca-transport)
-
-[![NPM](https://nodei.co/npm/seneca-transport.png)](https://nodei.co/npm/seneca-transport/)
-[![NPM](https://nodei.co/npm-dl/seneca-transport.png)](https://nodei.co/npm-dl/seneca-transport/)
 
 For a gentle introduction to Seneca itself, see the
 [senecajs.org](http://senecajs.org) site.
@@ -23,9 +18,9 @@ For a gentle introduction to Seneca itself, see the
 If you're using this plugin module, feel free to contact me on twitter if you
 have any questions! :) [@rjrodger](http://twitter.com/rjrodger)
 
-Current Version: 0.2.0
+Current Version: 0.3.0
 
-Tested on: Seneca 0.5.19, Node 0.10.29
+Tested on: Seneca 0.6.1, Node 0.10.36
 
 
 ### Install

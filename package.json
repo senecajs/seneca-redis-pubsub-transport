@@ -1,6 +1,6 @@
 {
   "name": "seneca-redis-transport",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Seneca Redis transport",
   "main": "redis-transport.js",
   "scripts": {
@@ -13,20 +13,22 @@
   "keywords": [
     "seneca",
     "transport",
-    "plugin"
+    "plugin",
+    "redis",
+    "pubsub",
+    "pub-sub",
+    "publish",
+    "subscribe"
   ],
   "author": "Richard Rodger (http://richardrodger.com)",
   "license": "MIT",
   "dependencies": {
-    "redis": "~0.10.3",
-    "underscore": "~1.6.0"
-  },
-  "peerDependencies": {
-    "seneca": "*"
+    "redis": "~0.12.1",
+    "lodash": "~2.4.1"
   },
   "devDependencies": {
-    "mocha": "~1.20.1",
-    "seneca": "~0.5.20",
+    "mocha": "~2.1.0",
+    "seneca": "plugin",
     "seneca-transport-test": "~0.1.2"
   },
   "files": [

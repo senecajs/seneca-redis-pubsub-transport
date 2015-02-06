@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Richard Rodger, MIT License */
+/* Copyright (c) 2014-2015 Richard Rodger, MIT License */
 "use strict";
 
 
@@ -8,7 +8,7 @@ var net    = require('net')
 var stream = require('stream')
 
 
-var _        = require('underscore')
+var _        = require('lodash')
 var redis    = require('redis')
 
 
