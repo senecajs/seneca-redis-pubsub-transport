@@ -46,22 +46,60 @@ module.exports = function( options ) {
   function hook_listen_redis( args, done ) {
     var seneca         = this
     var type           = args.type
+    var handle         = args.handle
     var listen_options = seneca.util.clean(_.extend({},options[type],args))
 
     var redis_in  = redis.createClient(listen_options.port,listen_options.host)
     var redis_out = redis.createClient(listen_options.port,listen_options.host)
+    var redis_sync = redis.createClient(listen_options.port,listen_options.host)
 
     handle_events(redis_in)
     handle_events(redis_out)
+    handle_events(redis_sync)
+
+    var handle_values = {
+      once: 'once'
+    }
+
+    function sync_handle(msgid,done) {
+      if (handle === handle_values.once) {
+        redis_sync.incr('seneca/transport/'+msgid, function (err, result) {
+          if (err) {
+            seneca.log.error('transport','redis-sync-key-incr',err)
+            return done(err)
+          }
+          return done(null,1===result)
+        })
+      }
+      else {
+        return done(null,true)
+      }
+    }
+
+    function post_handle(msgid) {
+      if (handle === handle_values.once) {
+        redis_sync.expire('seneca/transport/'+msgid, 60, function(err, result) {
+          if (err || 1!==result) {
+            seneca.log.error('transport','redis-sync-key-set-expire',err || new Error('expected 1 got ' + result))
+          }
+        })
+      }
+    }
 
     redis_in.on('message',function(channel,msgstr){
       var restopic = channel.replace(/_act$/,'_res')
       var data     = tu.parseJSON( seneca, 'listen-'+type, msgstr )
 
-      tu.handle_request( seneca, data, listen_options, function(out){
-        if( null == out ) return;
-        var outstr = tu.stringifyJSON( seneca, 'listen-'+type, out )
-        redis_out.publish(restopic,outstr)
+      var msgid = data.origin+'/'+data.id
+      sync_handle(msgid,function(err, handle){
+        if (handle) {
+          tu.handle_request( seneca, data, listen_options, function(out){
+            if( null == out ) return;
+            var outstr = tu.stringifyJSON( seneca, 'listen-'+type, out )
+            redis_out.publish(restopic,outstr)
+            post_handle(msgid)
+          })
+        }
       })
     })
 
@@ -76,6 +114,7 @@ module.exports = function( options ) {
 
       redis_in.end()
       redis_out.end()
+      redis_sync.end()
       closer.prior(close_args,done)
     })
 
