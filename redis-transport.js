@@ -48,8 +48,8 @@ module.exports = function( options ) {
     var type           = args.type
     var listen_options = seneca.util.clean(_.extend({},options[type],args))
 
-    var redis_in  = redis.createClient(listen_options.port,listen_options.host)
-    var redis_out = redis.createClient(listen_options.port,listen_options.host)
+    var redis_in  = redis.createClient(listen_options.port,listen_options.host, listen_options)
+    var redis_out = redis.createClient(listen_options.port,listen_options.host, listen_options)
 
     handle_events(redis_in)
     handle_events(redis_out)
