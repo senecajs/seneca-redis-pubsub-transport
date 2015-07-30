@@ -10,7 +10,7 @@ receive all messages.
 
 ALSO READ: The [seneca-transport](http://github.com/rjrodger/seneca-transport) readme has lots of introductory material about message transports. Start there if you have not used a message transport before.
 
-[![Build Status](https://travis-ci.org/rjrodger/seneca-transport.png?branch=master)](https://travis-ci.org/rjrodger/seneca-transport)
+[![Build Status](https://travis-ci.org/rjrodger/seneca-redis-transport.png?branch=master)](https://travis-ci.org/rjrodger/seneca-redis-transport)
 
 For a gentle introduction to Seneca itself, see the
 [senecajs.org](http://senecajs.org) site.
