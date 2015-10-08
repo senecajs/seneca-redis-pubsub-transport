@@ -1,20 +1,20 @@
 /* Copyright (c) 2014-2015 Richard Rodger */
-"use strict";
+'use strict'
 
+var Lab = require('lab')
 
-// mocha redis-transport.test.js
+var lab = exports.lab = Lab.script()
+var describe = lab.describe
+var it = lab.it
 
 var test = require('seneca-transport-test')
 
-
-describe('redis-transport', function() {
-
-  it('happy-any', function( fin ) {
-    test.foo_test( 'redis-transport', require, fin, 'redis', -6379 )
+describe('redis-transport', function () {
+  it('happy-any', function (fin) {
+    test.foo_test('', require, fin, 'redis', -6379)
   })
 
-  it('happy-pin', function( fin ) {
-    test.foo_pintest( 'redis-transport', require, fin, 'redis', -6379 )
+  it('happy-pin', function (fin) {
+    test.foo_pintest('', require, fin, 'redis', -6379)
   })
-
 })
