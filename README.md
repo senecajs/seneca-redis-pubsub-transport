@@ -1,5 +1,5 @@
 ![Seneca](http://senecajs.org/files/assets/seneca-logo.png)
-> A [Seneca.js][] plugin
+> A [Seneca.js][] transport plugin
 
 # seneca-redis-transport
 [![Build Status][travis-badge]][travis-url]
@@ -17,14 +17,12 @@ receive all messages.
 
 ALSO READ: The [seneca-transport](http://github.com/rjrodger/seneca-transport) readme has lots of introductory material about message transports. Start there if you have not used a message transport before.
 
-
-If you are new to Seneca in general, please take a look at [senecajs.org][]. We have everything from
-tutorials to sample apps to help get you up and running quickly.
-
-
 - __Version:__ 0.3.0
 - __Tested on:__ Seneca 0.6.1
 - __Node:__ 0.10.36
+
+If you are new to Seneca in general, please take a look at [senecajs.org][]. We have everything from
+tutorials to sample apps to help get you up and running quickly.
 
 If you're using this module, and need help, you can:
 
