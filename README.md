@@ -13,7 +13,7 @@ __Note:__ This is broadcast transport. All subscribed micro-services receive all
 
 - __Version:__ 0.3.0
 - __Tested on:__ Seneca 0.6.1
-- __Node:__ 0.10.36
+- __Node:__ 0.10, 0.11, 0.12, 4
 
 If you are new to Seneca in general, please take a look at [senecajs.org][]. We have everything from
 tutorials to sample apps to help get you up and running quickly.
@@ -25,9 +25,11 @@ If you're using this module, and need help, you can:
 - Ask on the [Gitter][gitter-url].
 
 
-### Install
+## Install
+To install, simply use npm. Remember you will need to install [Seneca.js][] if you haven't already.
 
 ```sh
+npm install seneca
 npm install seneca-redis-transport
 ```
 
