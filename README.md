@@ -7,15 +7,9 @@
 
 [![js-standard-style][standard-badge]][standard-style]
 
-## Seneca Redis Transport Plugin
+A transport module that uses [redis] as it's engine. It may also be used as an example on how to implement a transport plugin for Seneca.
 
-This plugin provides the redis pub/sub transport channel for
-micro-service messages. This lets you send broadcast messsages via [redis](http://redis.io/).
-
-NOTE: This is broadcast transport. All subscribed micro-services
-receive all messages.
-
-ALSO READ: The [seneca-transport](http://github.com/rjrodger/seneca-transport) readme has lots of introductory material about message transports. Start there if you have not used a message transport before.
+__Note:__ This is broadcast transport. All subscribed micro-services receive all messages.
 
 - __Version:__ 0.3.0
 - __Tested on:__ Seneca 0.6.1
@@ -37,21 +31,20 @@ If you're using this module, and need help, you can:
 npm install seneca-redis-transport
 ```
 
-You'll also need [redis](http://redis.io/).
-
+In order to use this transport, you need to have a [redis][] daemon running. The deamon and instructions on how to install can be found on the redis [install page][].
 
 ## Quick Example
 
 ```js
 require('seneca')()
   .use('redis-transport')
-  .add('foo:two',function(args,done){ done(null,{bar:args.bar}) })
-  .client( {type:'redis',pin:'foo:one,bar:*'} )
-  .listen( {type:'redis',pin:'foo:two,bar:*'} )
+  .add('foo:two', function(args, done) {done(null, {bar:args.bar})})
+  .client({type:'redis', pin:'foo:one, bar:*'})
+  .listen({type:'redis', pin:'foo:two, bar:*'})
 ```
 
 ## Contributing
-The [Senecajs org][] encourage open participation. If you feel you can help in any way, be it with
+The [Senecajs org][] encourages open participation. If you feel you can help in any way, be it with
 documentation, examples, extra testing, or new features please get in touch.
 
 ## License
@@ -64,6 +57,8 @@ Copyright Richard Rodger and other contributors 2015, Licensed under [MIT][].
 [standard-badge]: https://raw.githubusercontent.com/feross/standard/master/badge.png
 [standard-style]: https://github.com/feross/standard
 
+[redis]: http://redis.io/
+[install page]: http://redis.io/download
 [MIT]: ./LICENSE
 [Senecajs org]: https://github.com/senecajs/
 [senecajs.org]: http://senecajs.org/
