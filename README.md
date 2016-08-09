@@ -49,7 +49,7 @@ The [Senecajs org][] encourages open participation. If you feel you can help in 
 documentation, examples, extra testing, or new features please get in touch.
 
 ## License
-Copyright Richard Rodger and other contributors 2015, Licensed under [MIT][].
+Copyright Richard Rodger and other contributors 2014-2016, Licensed under [MIT][].
 
 [npm-badge]: https://img.shields.io/npm/v/seneca-redis-transport.svg
 [npm-url]: https://npmjs.com/package/seneca-redis-transport
@@ -57,8 +57,8 @@ Copyright Richard Rodger and other contributors 2015, Licensed under [MIT][].
 [travis-url]: https://travis-ci.org/rjrodger/seneca-redis-transport
 [coveralls-badge]:https://coveralls.io/repos/rjrodger/seneca-redis-transport/badge.svg?branch=master&service=github
 [coveralls-url]: https://coveralls.io/github/rjrodger/seneca-redis-transport?branch=master
-[david-badge]: https://david-dm.org/rjrodger/seneca-redis-transport.svg
-[david-url]: https://david-dm.org/rjrodger/seneca-redis-transport
+[david-badge]: https://david-dm.org/senecajs/seneca-redis-transport.svg
+[david-url]: https://david-dm.org/senecajs/seneca-redis-transport
 [gitter-badge]: https://badges.gitter.im/senecajs/seneca.svg
 [gitter-url]: https://gitter.im/senecajs/seneca
 
