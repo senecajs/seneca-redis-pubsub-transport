@@ -1,7 +1,7 @@
 ![Seneca](http://senecajs.org/files/assets/seneca-logo.png)
 > A [Seneca.js][] transport plugin for Redis
 
-# seneca-redis-transport
+# seneca-redis-pubsub-transport
 [![npm version][npm-badge]][npm-url]
 [![Build Status][travis-badge]][travis-url]
 [![Coverage Status][coveralls-badge]][coveralls-url]
@@ -29,7 +29,7 @@ To install, simply use npm. Remember you will need to install [Seneca.js][] if y
 
 ```sh
 npm install seneca
-npm install seneca-redis-transport
+npm install seneca-redis-pubsub-transport
 ```
 
 In order to use this transport, you need to have a [redis][] daemon running. The deamon and instructions on how to install can be found on the redis [install page][].
@@ -51,14 +51,14 @@ documentation, examples, extra testing, or new features please get in touch.
 ## License
 Copyright Richard Rodger and other contributors 2014-2016, Licensed under [MIT][].
 
-[npm-badge]: https://img.shields.io/npm/v/seneca-redis-transport.svg
-[npm-url]: https://npmjs.com/package/seneca-redis-transport
-[travis-badge]: https://api.travis-ci.org/rjrodger/seneca-redis-transport.svg
-[travis-url]: https://travis-ci.org/rjrodger/seneca-redis-transport
-[coveralls-badge]:https://coveralls.io/repos/rjrodger/seneca-redis-transport/badge.svg?branch=master&service=github
-[coveralls-url]: https://coveralls.io/github/rjrodger/seneca-redis-transport?branch=master
-[david-badge]: https://david-dm.org/senecajs/seneca-redis-transport.svg
-[david-url]: https://david-dm.org/senecajs/seneca-redis-transport
+[npm-badge]: https://img.shields.io/npm/v/seneca-redis-pubsub-transport.svg
+[npm-url]: https://npmjs.com/package/seneca-redis-pubsub-transport
+[travis-badge]: https://api.travis-ci.org/senecajs/seneca-redis-pubsub-transport.svg
+[travis-url]: https://travis-ci.org/senecajs/seneca-redis-pubsub-transport
+[coveralls-badge]:https://coveralls.io/repos/senecajs/seneca-redis-pubsub-transport/badge.svg?branch=master&service=github
+[coveralls-url]: https://coveralls.io/github/senecajs/seneca-redis-pubsub-transport?branch=master
+[david-badge]: https://david-dm.org/senecajs/seneca-redis-pubsub-transport.svg
+[david-url]: https://david-dm.org/senecajs/seneca-redis-pubsub-transport
 [gitter-badge]: https://badges.gitter.im/senecajs/seneca.svg
 [gitter-url]: https://gitter.im/senecajs/seneca
 
@@ -71,5 +71,5 @@ Copyright Richard Rodger and other contributors 2014-2016, Licensed under [MIT][
 [Senecajs org]: https://github.com/senecajs/
 [senecajs.org]: http://senecajs.org/
 [Seneca.js]: https://www.npmjs.com/package/seneca
-[github issue]: https://github.com/rjrodger/seneca-redis-transport/issues
+[github issue]: https://github.com/senecajs/seneca-redis-pubsub-transport/issues
 [@senecajs]: http://twitter.com/senecajs
