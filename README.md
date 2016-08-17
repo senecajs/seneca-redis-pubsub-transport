@@ -28,8 +28,10 @@ If you're using this module, and need help, you can:
 To install, simply use npm. Remember you will need to install [Seneca.js][] if you haven't already.
 
 ```sh
-npm install seneca
-npm install seneca-redis-pubsub-transport
+
+npm install seneca --save
+npm install seneca-redis-pubsub-transport --save
+
 ```
 
 In order to use this transport, you need to have a [redis][] daemon running. The deamon and instructions on how to install can be found on the redis [install page][].
@@ -40,9 +42,24 @@ In order to use this transport, you need to have a [redis][] daemon running. The
 require('seneca')()
   .use('redis-transport')
   .add('foo:two', function(args, done) {done(null, {bar:args.bar})})
-  .client({type:'redis', pin:'foo:one, bar:*'})
-  .listen({type:'redis', pin:'foo:two, bar:*'})
+  // if you need this micro-service to publish & subscribe to commands add client & listen 
+  .client({type:'redis', pin:'foo:one, bar:*'})  // add client to be able this micro-service to publish 
+  .listen({type:'redis', pin:'foo:two, bar:*'}) // add listen to be able this micro-service to subscribe 
 ```
+
+## Example Using Redis Server Url
+```js
+require('seneca')({
+  transport: {
+    redis: {
+      // you can use The URL of the Redis server. Format:-
+      url: "[redis:]//[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]"
+    }
+  }
+})
+.use('redis-transport')
+```
+(More info available About Url Format at [IANAl] ).
 
 ## Contributing
 The [Senecajs org][] encourages open participation. If you feel you can help in any way, be it with
@@ -73,3 +90,5 @@ Copyright Richard Rodger and other contributors 2014 - 2016, Licensed under [MIT
 [Seneca.js]: https://www.npmjs.com/package/seneca
 [github issue]: https://github.com/senecajs/seneca-redis-pubsub-transport/issues
 [@senecajs]: http://twitter.com/senecajs
+
+[IANAl]: http://www.iana.org/assignments/uri-schemes/prov/redis

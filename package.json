@@ -23,10 +23,13 @@
     "subscribe"
   ],
   "author": "Richard Rodger (http://richardrodger.com)",
+  "contributors": [
+    "Mohamed Habashy  (https://github.com/Mohamed-Habshey)"
+  ],
   "license": "MIT",
   "dependencies": {
-    "lodash": "4.6.0",
-    "redis": "~0.12.1"
+    "lodash": "^4.14.1",
+    "redis": "~2.6.2"
   },
   "devDependencies": {
     "coveralls": "2.x.x",
