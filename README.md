@@ -66,7 +66,7 @@ The [Senecajs org][] encourages open participation. If you feel you can help in 
 documentation, examples, extra testing, or new features please get in touch.
 
 ## License
-Copyright Richard Rodger and other contributors 2014-2016, Licensed under [MIT][].
+Copyright Richard Rodger and other contributors 2014 - 2016, Licensed under [MIT][].
 
 [npm-badge]: https://img.shields.io/npm/v/seneca-redis-pubsub-transport.svg
 [npm-url]: https://npmjs.com/package/seneca-redis-pubsub-transport
