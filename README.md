@@ -23,6 +23,8 @@ If you're using this module, and need help, you can:
 - Tweet to [@senecajs][],
 - Ask on the [Gitter][gitter-url].
 
+### Seneca compatibility
+Supports Seneca versions **1.x** - **3.x**
 
 ## Install
 To install, simply use npm. Remember you will need to install [Seneca.js][] if you haven't already.
