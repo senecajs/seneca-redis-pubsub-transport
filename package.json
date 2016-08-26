@@ -45,7 +45,6 @@
     "coveralls": "2.x.x",
     "docco": "0.7.x",
     "eslint-config-seneca": "3.x.x",
-    "eslint-config-standard": "4.x.x",
     "eslint-plugin-hapi": "4.x.x",
     "eslint-plugin-standard": "2.x.x",
     "lab": "11.0.x",
