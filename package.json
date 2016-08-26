@@ -4,8 +4,9 @@
   "description": "Seneca Redis transport",
   "main": "lib/index.js",
   "scripts": {
-    "test": "lab test/*.test.js -r console -v -L",
-    "coverage": "lab -s test/*.test.js -r lcov | coveralls",
+    "test": "lab test/*.test.js -r console -c -v -L -t 92",
+    "coveralls": "lab -s test/*.test.js -r lcov | coveralls",
+    "coverage": "lab -v -P test -L -t 92 -r html > docs/coverage.html",
     "lint": "lab -dL",
     "annotate": "docco lib/index.js -o docs/annotated"
   },
