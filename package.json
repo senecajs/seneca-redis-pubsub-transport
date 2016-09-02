@@ -35,12 +35,13 @@
     "Luca Lanziani (https://github.com/LucaLanziani)",
     "Maxence Dalmais (https://github.com/maxired)",
     "Pierre-Jean Leger (https://github.com/Caligone)",
-    "Shane Lacey (https://github.com/shanel262)"
+    "Shane Lacey (https://github.com/shanel262)",
+    "David Gonzalez (https://github.com/dgonzalez)"
   ],
   "license": "MIT",
   "dependencies": {
-    "lodash": "^4.14.1",
-    "redis": "~2.6.2"
+    "lodash": "4.14.1",
+    "redis": "2.6.2"
   },
   "devDependencies": {
     "coveralls": "2.x.x",
@@ -49,7 +50,6 @@
     "eslint-plugin-hapi": "4.x.x",
     "eslint-plugin-standard": "2.x.x",
     "lab": "11.0.x",
-    "pre-commit": "1.1.x",
     "seneca": "plugin",
     "seneca-transport-test": "~0.1.3"
   },
