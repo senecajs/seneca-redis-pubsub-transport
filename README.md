@@ -45,8 +45,8 @@ require('seneca')()
   .use('redis-transport')
   .add('foo:two', function(args, done) {done(null, {bar:args.bar})})
   // if you need this micro-service to publish & subscribe to commands add client & listen 
-  .client({type:'redis', pin:'foo:one, bar:*'})  // add client to be able this micro-service to publish 
-  .listen({type:'redis', pin:'foo:two, bar:*'}) // add listen to be able this micro-service to subscribe 
+  .client({type:'redis'})  // add client to be able this micro-service to publish
+  .listen({type:'redis'}) // add listen to be able this micro-service to subscribe
 ```
 
 ## Example Using Redis Server Url
