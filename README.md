@@ -42,7 +42,7 @@ In order to use this transport, you need to have a [redis][] daemon running. The
 
 ```js
 require('seneca')()
-  .use('redis-transport')
+  .use('seneca-redis-transport')
   .add('foo:two', function(args, done) {done(null, {bar:args.bar})})
   // if you need this micro-service to publish & subscribe to commands add client & listen 
   .client({type:'redis'})  // add client to be able this micro-service to publish
@@ -59,7 +59,7 @@ require('seneca')({
     }
   }
 })
-.use('redis-transport')
+.use('seneca-redis-transport')
 ```
 (More info available About Url Format at [IANAl] ).
 
