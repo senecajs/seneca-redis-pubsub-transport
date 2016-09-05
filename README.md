@@ -49,6 +49,18 @@ require('seneca')()
   .listen({type:'redis'}) // add listen to be able this micro-service to subscribe
 ```
 
+## Running Examples
+
+In order to run the [examples][] we provide the required docker configuration
+in `docker-compose.yml` and the folder `docker`. Just run `docker-compose up` in
+the root folder and it should bring up a redis server. Please be aware that if you
+are using `docker-machine` the ip running the redis server is the ip of your docker-machine.
+
+In order to find the ip of your `docker-machine` just execute:
+```
+docker-machine ip <your-docker-machine-name>
+```
+
 ## Example Using Redis Server Url
 ```js
 require('seneca')({
@@ -91,6 +103,7 @@ Copyright Richard Rodger and other contributors 2014 - 2016, Licensed under [MIT
 [senecajs.org]: http://senecajs.org/
 [Seneca.js]: https://www.npmjs.com/package/seneca
 [github issue]: https://github.com/senecajs/seneca-redis-pubsub-transport/issues
+[examples]: https://github.com/senecajs/seneca-redis-pubsub-transport/tree/master/docs/examples
 [@senecajs]: http://twitter.com/senecajs
 
 [IANAl]: http://www.iana.org/assignments/uri-schemes/prov/redis
