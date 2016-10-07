@@ -32,7 +32,7 @@ To install, simply use npm. Remember you will need to install [Seneca.js][] if y
 ```sh
 
 npm install seneca --save
-npm install seneca-redis-pubsub-transport --save
+npm install seneca-redis-transport --save
 
 ```
 
