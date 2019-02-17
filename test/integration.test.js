@@ -18,10 +18,10 @@ describe('redis-transport', () => {
     publisher.use(SenecaRedisTransport)
 
     subscriber1 = Seneca({ log: 'silent' })
-    subscriber1.use(SenecaRedisTransport, { port: 6379 })
+    subscriber1.use(SenecaRedisTransport)
 
     subscriber2 = Seneca({ log: 'silent' })
-    subscriber2.use(SenecaRedisTransport, { port: 6379 })
+    subscriber2.use(SenecaRedisTransport)
 
     publisher.ready(() => subscriber1.ready(() => subscriber2.ready(done)))
   })
@@ -33,9 +33,9 @@ describe('redis-transport', () => {
 
   describe('pubsub test', () => {
     beforeEach(done => {
-      publisher.client({ type: 'redis', port: 6379, pin: ['cmd:test'] })
-      subscriber1.listen({ type: 'redis', port: 6379, pin: ['cmd:test'] })
-      subscriber2.listen({ type: 'redis', port: 6379, pin: ['cmd:test'] })
+      publisher.client({ type: 'redis', pin: ['cmd:test'] })
+      subscriber1.listen({ type: 'redis', pin: ['cmd:test'] })
+      subscriber2.listen({ type: 'redis', pin: ['cmd:test'] })
       subscriber1.add('cmd:test', client_stub)
       subscriber2.add('cmd:test', client_stub)
       publisher.ready(() => subscriber1.ready(() => subscriber2.ready(done)))
@@ -56,13 +56,11 @@ describe('redis-transport', () => {
     beforeEach(done => {
       publisher.client({
         type: 'redis',
-        port: 6379,
         pin: ['cmd:foo', 'cmd:bar', 'cmd:baz']
       })
-      subscriber1.listen({ type: 'redis', port: 6379, pin: ['cmd:foo'] })
+      subscriber1.listen({ type: 'redis', pin: ['cmd:foo'] })
       subscriber2.listen({
         type: 'redis',
-        port: 6379,
         pin: ['cmd:bar', 'cmd:baz']
       })
       subscriber1.add('cmd:foo', client_stub)
