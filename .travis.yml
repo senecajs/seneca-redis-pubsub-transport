@@ -7,8 +7,9 @@ env:
   - SENECA_VER=@3.x.x
 
 node_js:
+  - "10"
+  - "8"
   - "6"
-  - "4"
 
 services:
   - redis-server
