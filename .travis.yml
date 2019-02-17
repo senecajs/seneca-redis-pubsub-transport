@@ -7,8 +7,8 @@ env:
   - SENECA_VER=@3.x.x
 
 node_js:
-  - "6"
-  - "4"
+  - "10"
+  - "8"
 
 services:
   - redis-server
@@ -18,4 +18,4 @@ cache:
     - node_modules
 
 after_script:
-  npm run coverage
+  npm run coveralls

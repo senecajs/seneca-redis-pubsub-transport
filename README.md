@@ -1,14 +1,13 @@
 ![Seneca](http://senecajs.org/files/assets/seneca-logo.png)
 > A [Seneca.js][] transport plugin for Redis
 
-# seneca-redis-pubsub-transport
+# seneca-redis-transport-fork
 [![npm version][npm-badge]][npm-url]
 [![Build Status][travis-badge]][travis-url]
 [![Coverage Status][coveralls-badge]][coveralls-url]
 [![Dependency Status][david-badge]][david-url]
-[![Gitter][gitter-badge]][gitter-url]
 
-[![js-standard-style][standard-badge]][standard-style]
+**This has been forked from `seneca/seneca-redis-pubsub-transport` and has been modified to work with the latest seneca.**
 
 A transport module that uses [redis] as it's engine. It may also be used as an example on how to implement a transport plugin for Seneca.
 
@@ -32,7 +31,7 @@ To install, simply use npm. Remember you will need to install [Seneca.js][] if y
 ```sh
 
 npm install seneca --save
-npm install seneca-redis-pubsub-transport --save
+npm install seneca-redis-transport-fork --save
 
 ```
 
@@ -42,7 +41,7 @@ In order to use this transport, you need to have a [redis][] daemon running. The
 
 ```js
 require('seneca')()
-  .use('seneca-redis-transport')
+  .use('seneca-redis-transport-fork')
   .add('foo:two', function(args, done) {done(null, {bar:args.bar})})
   // if you need this micro-service to publish & subscribe to commands add client & listen 
   .client({type:'redis'})  // add client to be able this micro-service to publish
@@ -71,9 +70,29 @@ require('seneca')({
     }
   }
 })
-.use('seneca-redis-transport')
+.use('seneca-redis-transport-fork')
 ```
 (More info available About Url Format at [IANAl] ).
+
+## Running Tests
+
+If you don't have a redis server handy, you can use docker.
+
+```sh
+npm run build
+npm run start
+```
+
+With that done, you can run tests:
+
+```sh
+npm run test
+```
+
+Once you're finished:
+```sh
+npm run stop
+```
 
 ## Contributing
 The [Senecajs org][] encourages open participation. If you feel you can help in any way, be it with
@@ -82,16 +101,14 @@ documentation, examples, extra testing, or new features please get in touch.
 ## License
 Copyright Richard Rodger and other contributors 2014 - 2016, Licensed under [MIT][].
 
-[npm-badge]: https://img.shields.io/npm/v/seneca-redis-pubsub-transport.svg
-[npm-url]: https://npmjs.com/package/seneca-redis-pubsub-transport
-[travis-badge]: https://api.travis-ci.org/senecajs/seneca-redis-pubsub-transport.svg
-[travis-url]: https://travis-ci.org/senecajs/seneca-redis-pubsub-transport
-[coveralls-badge]:https://coveralls.io/repos/senecajs/seneca-redis-pubsub-transport/badge.svg?branch=master&service=github
-[coveralls-url]: https://coveralls.io/github/senecajs/seneca-redis-pubsub-transport?branch=master
-[david-badge]: https://david-dm.org/senecajs/seneca-redis-pubsub-transport.svg
-[david-url]: https://david-dm.org/senecajs/seneca-redis-pubsub-transport
-[gitter-badge]: https://badges.gitter.im/senecajs/seneca.svg
-[gitter-url]: https://gitter.im/senecajs/seneca
+[npm-badge]: https://img.shields.io/npm/v/seneca-redis-transport-fork.svg
+[npm-url]: https://npmjs.com/package/seneca-redis-transport-fork
+[travis-badge]: https://api.travis-ci.org/tswaters/seneca-redis-transport-fork.svg
+[travis-url]: https://travis-ci.org/tswaters/seneca-redis-transport-fork
+[coveralls-badge]:https://coveralls.io/repos/tswaters/seneca-redis-transport-fork/badge.svg?branch=master&service=github
+[coveralls-url]: https://coveralls.io/github/tswaters/seneca-redis-transport-fork?branch=master
+[david-badge]: https://david-dm.org/tswaters/seneca-redis-transport-fork.svg
+[david-url]: https://david-dm.org/tswaters/seneca-redis-transport-fork
 
 [standard-badge]: https://raw.githubusercontent.com/feross/standard/master/badge.png
 [standard-style]: https://github.com/feross/standard
@@ -102,8 +119,8 @@ Copyright Richard Rodger and other contributors 2014 - 2016, Licensed under [MIT
 [Senecajs org]: https://github.com/senecajs/
 [senecajs.org]: http://senecajs.org/
 [Seneca.js]: https://www.npmjs.com/package/seneca
-[github issue]: https://github.com/senecajs/seneca-redis-pubsub-transport/issues
-[examples]: https://github.com/senecajs/seneca-redis-pubsub-transport/tree/master/docs/examples
+[github issue]: https://github.com/tswaters/seneca-redis-transport-fork/issues
+[examples]: https://github.com/tswaters/seneca-redis-transport-fork/tree/master/docs/examples
 [@senecajs]: http://twitter.com/senecajs
 
 [IANAl]: http://www.iana.org/assignments/uri-schemes/prov/redis
