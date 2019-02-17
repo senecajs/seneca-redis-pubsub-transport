@@ -13,16 +13,16 @@ describe('redis-transport', () => {
   const client_stub = sinon.stub().callsArg(1)
 
   beforeEach(done => {
-    publisher = Seneca({ log: 'debug' })
+    publisher = Seneca({ log: 'silent' })
     publisher.use(SenecaRedisTransport)
     publisher.client({ type: 'redis', port: 6379, pin: ['cmd:test'] })
 
-    subscriber1 = Seneca({ log: 'debug' })
+    subscriber1 = Seneca({ log: 'silent' })
     subscriber1.use(SenecaRedisTransport, { port: 6379 })
     subscriber1.add('cmd:test', client_stub)
     subscriber1.listen({ type: 'redis', port: 6379, pin: ['cmd:test'] })
 
-    subscriber2 = Seneca({ log: 'debug' })
+    subscriber2 = Seneca({ log: 'silent' })
     subscriber2.use(SenecaRedisTransport, { port: 6379 })
     subscriber2.add('cmd:test', client_stub)
     subscriber2.listen({ type: 'redis', port: 6379, pin: ['cmd:test'] })
