@@ -8,7 +8,8 @@
     "coveralls": "lab -s test/*.test.js -r lcov | coveralls",
     "coverage": "lab -v -P test -L -t 92 -r html > docs/coverage.html",
     "lint": "lab -dL",
-    "annotate": "docco lib/index.js -o docs/annotated"
+    "annotate": "docco lib/index.js -o docs/annotated",
+    "prettier": "prettier --write --no-semi --single-quote lib/index.js test/*.js"
   },
   "repository": {
     "type": "git",
@@ -51,6 +52,7 @@
     "eslint-plugin-hapi": "4.x.x",
     "eslint-plugin-standard": "2.x.x",
     "lab": "11.0.x",
+    "prettier": "^1.16.4"
     "seneca": "plugin",
     "seneca-transport-test": "~0.1.3"
   },
