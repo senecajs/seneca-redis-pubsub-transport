@@ -6,9 +6,6 @@
 [![Build Status][travis-badge]][travis-url]
 [![Coverage Status][coveralls-badge]][coveralls-url]
 [![Dependency Status][david-badge]][david-url]
-[![Gitter][gitter-badge]][gitter-url]
-
-[![js-standard-style][standard-badge]][standard-style]
 
 **This has been forked from `seneca/seneca-redis-pubsub-transport` and has been modified to work with the latest seneca.**
 
