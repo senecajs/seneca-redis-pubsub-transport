@@ -60,7 +60,11 @@ describe('redis-transport', () => {
         pin: ['cmd:foo', 'cmd:bar', 'cmd:baz']
       })
       subscriber1.listen({ type: 'redis', port: 6379, pin: ['cmd:foo'] })
-      subscriber2.listen({ type: 'redis', port: 6379, pin: ['cmd:bar', 'cmd:baz'] })
+      subscriber2.listen({
+        type: 'redis',
+        port: 6379,
+        pin: ['cmd:bar', 'cmd:baz']
+      })
       subscriber1.add('cmd:foo', client_stub)
       subscriber2.add('cmd:bar', client_stub)
       subscriber2.add('cmd:baz', client_stub)
