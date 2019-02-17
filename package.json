@@ -1,6 +1,6 @@
 {
   "name": "seneca-redis-transport-fork",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Seneca Redis transport",
   "main": "lib/index.js",
   "engines": {
