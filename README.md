@@ -8,6 +8,9 @@
 [![Dependency Status][david-badge]][david-url]
 [![Gitter][gitter-badge]][gitter-url]
 
+| ![Voxgig](https://www.voxgig.com/res/img/vgt01r.png) | This open source module is sponsored and supported by [Voxgig](https://www.voxgig.com). |
+|---|---|
+
 [![js-standard-style][standard-badge]][standard-style]
 
 A transport module that uses [redis] as it's engine. It may also be used as an example on how to implement a transport plugin for Seneca.
