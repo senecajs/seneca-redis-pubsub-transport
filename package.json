@@ -1,5 +1,5 @@
 {
-  "name": "seneca-redis-transport",
+  "name": "@seneca/redis-pubsub-transport",
   "version": "0.3.0",
   "description": "Seneca Redis transport",
   "main": "lib/index.js",
@@ -31,7 +31,7 @@
     "Adrien Becchis (https://github.com/AdrieanKhisbe)",
     "Dean McDonnell (https://github.com/mcdonnelldean)",
     "Emer Rutherford (https://github.com/eeswr)",
-    "Oisín Hennessy (https://github.com/code-jace)",
+    "Ois\u00edn Hennessy (https://github.com/code-jace)",
     "Luca Lanziani (https://github.com/LucaLanziani)",
     "Maxence Dalmais (https://github.com/maxired)",
     "Pierre-Jean Leger (https://github.com/Caligone)",
