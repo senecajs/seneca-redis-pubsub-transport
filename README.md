@@ -1,7 +1,24 @@
 ![Seneca](http://senecajs.org/files/assets/seneca-logo.png)
 > A [Seneca.js][] plugin
 
-# @seneca/redis-pubsub-transport
+# seneca-redis-pubsub-transport
+[![npm version][npm-badge]][npm-url]
+[![Build Status][travis-badge]][travis-url]
+[![Coverage Status][coveralls-badge]][coveralls-url]
+[![Dependency Status][david-badge]][david-url]
+[![Gitter][gitter-badge]][gitter-url]
+
+| ![Voxgig](https://www.voxgig.com/res/img/vgt01r.png) | This open source module is sponsored and supported by [Voxgig](https://www.voxgig.com). |
+|---|---|
+
+[![js-standard-style][standard-badge]][standard-style]
+
+A transport module that uses [redis] as it's engine. It may also be used as an example on how to implement a transport plugin for Seneca.
+
+__Note:__ This is broadcast transport. All subscribed micro-services receive all messages.
+
+If you are new to Seneca in general, please take a look at [senecajs.org][]. We have everything from
+tutorials to sample apps to help get you up and running quickly.
 
 | ![Voxgig](https://www.voxgig.com/res/img/vgt01r.png) | This open source module is sponsored and supported by [Voxgig](https://www.voxgig.com). |
 |---|---|
