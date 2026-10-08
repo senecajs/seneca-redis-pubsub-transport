@@ -1,24 +1,12 @@
-![Seneca](http://senecajs.org/files/assets/seneca-logo.png)
-> A [Seneca.js][] plugin
+# @seneca/redis-pubsub-transport
 
-# seneca-redis-pubsub-transport
-[![npm version][npm-badge]][npm-url]
-[![Build Status][travis-badge]][travis-url]
-[![Coverage Status][coveralls-badge]][coveralls-url]
-[![Dependency Status][david-badge]][david-url]
-[![Gitter][gitter-badge]][gitter-url]
+A [Seneca](https://www.npmjs.com/package/seneca) transport plugin that
+sends messages over [Redis](https://redis.io/) pub/sub. It is a broadcast
+transport: every subscribed service receives every message. Works with
+Seneca 4 (tested with 4.0.0-rc5 and 4.0.0) and Seneca 3, on Node 24 and
+22, with Redis 8.
 
-| ![Voxgig](https://www.voxgig.com/res/img/vgt01r.png) | This open source module is sponsored and supported by [Voxgig](https://www.voxgig.com). |
-|---|---|
-
-[![js-standard-style][standard-badge]][standard-style]
-
-A transport module that uses [redis] as it's engine. It may also be used as an example on how to implement a transport plugin for Seneca.
-
-__Note:__ This is broadcast transport. All subscribed micro-services receive all messages.
-
-If you are new to Seneca in general, please take a look at [senecajs.org][]. We have everything from
-tutorials to sample apps to help get you up and running quickly.
+[![npm version](https://img.shields.io/npm/v/@seneca/redis-pubsub-transport.svg)](https://npmjs.com/package/@seneca/redis-pubsub-transport)
 
 | ![Voxgig](https://www.voxgig.com/res/img/vgt01r.png) | This open source module is sponsored and supported by [Voxgig](https://www.voxgig.com). |
 |---|---|
@@ -26,91 +14,97 @@ tutorials to sample apps to help get you up and running quickly.
 ## Install
 
 ```sh
-npm install seneca --save
-npm install seneca-redis-pubsub-transport --save
+npm install seneca seneca-transport @seneca/redis-pubsub-transport redis@2
 ```
+
+You also need a running Redis server.
 
 ## Quick Example
 
 ```js
-require('seneca')()
-  .use('seneca-redis-transport')
-  .add('foo:two', function(args, done) {done(null, {bar:args.bar})})
-  // if you need this micro-service to publish & subscribe to commands add client & listen 
-  .client({type:'redis'})  // add client to be able this micro-service to publish
-  .listen({type:'redis'}) // add listen to be able this micro-service to subscribe
+const Seneca = require('seneca')
+
+Seneca()
+  .use('seneca-transport') // Seneca 4 has no network transport in core
+  .use('@seneca/redis-pubsub-transport')
+  .add('color:red', function (msg, reply) {
+    reply(null, { hex: '#FF0000' })
+  })
+  .listen({ type: 'redis', host: '127.0.0.1', port: 6379 })
+
+Seneca()
+  .use('seneca-transport')
+  .use('@seneca/redis-pubsub-transport')
+  .client({ type: 'redis', host: '127.0.0.1', port: 6379 })
+  .act('color:red', console.log)
 ```
+
+A complete program that also closes both instances is in
+[docs/examples/getting-started.js](docs/examples/getting-started.js).
 
 ## More Examples
 
-See [test/](test/) for usage examples.
+* [Getting started](docs/tutorials/getting-started.md) tutorial.
+* [Configure the Redis connection](docs/how-to/configure-the-redis-connection.md).
+* [Route messages with pins](docs/how-to/route-messages-with-pins.md).
+* [Migrate from Seneca 3](docs/how-to/migrate-from-seneca-3.md).
+* [Run the tests locally](docs/how-to/run-the-tests-locally.md).
+
+All documentation: [docs/README.md](docs/README.md).
 
 ## Motivation
 
-A transport module that uses [redis][] as its engine. This is a broadcast transport — all subscribed micro-services receive all messages.
+Redis pub/sub is a simple way to connect Seneca services that already
+share a Redis server, and to broadcast messages to several services at
+once. See [How the transport works](docs/explanation/how-it-works.md).
 
 ## Support
 
-If you're using this module and need help, you can:
-
-- Post a [github issue][]
-- Tweet to [@senecajs][]
-- Ask on the [Gitter][gitter-url]
+* Report problems as [GitHub issues](https://github.com/senecajs/seneca-redis-pubsub-transport/issues).
+* Seneca documentation: [senecajs/seneca docs](https://github.com/senecajs/seneca/tree/master/docs).
+* This plugin is sponsored by [Voxgig](https://www.voxgig.com).
 
 ## API
 
-### Example Using Redis Server URL
+| Pattern | Sent by | Reference |
+| ------- | ------- | --------- |
+| `role:transport,hook:listen,type:redis` | `seneca.listen({type:'redis'})` | [Messages](docs/reference/messages.md) |
+| `role:transport,hook:client,type:redis` | `seneca.client({type:'redis'})` | [Messages](docs/reference/messages.md) |
+| `type:pubsub` variants (legacy) | `listen`/`client` with `type:'pubsub'` | [Messages](docs/reference/messages.md#legacy-type-pubsub) |
 
-```js
-require('seneca')({
-  transport: {
-    redis: {
-      url: "[redis:]//[[user][:password@]][host][:port][/db-number]"
-    }
-  }
-})
-.use('seneca-redis-transport')
-```
+| Option | Default | Reference |
+| ------ | ------- | --------- |
+| `redis.host` | `'localhost'` | [Options](docs/reference/options.md) |
+| `redis.port` | `6379` | [Options](docs/reference/options.md) |
+| `redis.url` | none | [Options](docs/reference/options.md) |
+| `redis.timeout` | Seneca `timeout` minus 555 | [Options](docs/reference/options.md) |
 
 ## Contributing
 
-The [Senecajs org][] encourages open participation. If you feel you can help in any way, be it with documentation, examples, extra testing, or new features please get in touch.
-
-### Running examples with Docker
+The [Senecajs org](https://github.com/senecajs/) encourages open
+participation. To run the tests (Node 24 or 22, Seneca 4 prerelease as
+devDependency):
 
 ```sh
-docker-compose up
+npm run services:up   # Redis 8.10 on host port 16382
+npm install
+npm test
+npm run services:down
 ```
+
+Details: [Run the tests locally](docs/how-to/run-the-tests-locally.md).
+The GitHub Actions workflow is delivered as a patch in
+[.patches](.patches/README.md); apply it with `git am .patches/*.patch`.
 
 ## Background
 
-Uses [redis](http://redis.io/) for pub-sub message distribution. See [examples](https://github.com/senecajs/seneca-redis-pubsub-transport/tree/master/docs/examples) for more.
+The plugin started in 2014 as an example of a Seneca transport and was
+renamed from seneca-redis-transport to seneca-redis-pubsub-transport.
+See [CHANGES.md](CHANGES.md).
 
-[![npm version][npm-badge]][npm-url]
-[![Build Status][travis-badge]][travis-url]
-[![Coverage Status][coveralls-badge]][coveralls-url]
-[![Dependency Status][david-badge]][david-url]
-[![Gitter][gitter-badge]][gitter-url]
-[![js-standard-style][standard-badge]][standard-style]
-[npm-badge]: https://img.shields.io/npm/v/seneca-redis-pubsub-transport.svg
-[npm-url]: https://npmjs.com/package/seneca-redis-pubsub-transport
-[travis-badge]: https://api.travis-ci.org/senecajs/seneca-redis-pubsub-transport.svg
-[travis-url]: https://travis-ci.org/senecajs/seneca-redis-pubsub-transport
-[coveralls-badge]:https://coveralls.io/repos/senecajs/seneca-redis-pubsub-transport/badge.svg?branch=master&service=github
-[coveralls-url]: https://coveralls.io/github/senecajs/seneca-redis-pubsub-transport?branch=master
-[david-badge]: https://david-dm.org/senecajs/seneca-redis-pubsub-transport.svg
-[david-url]: https://david-dm.org/senecajs/seneca-redis-pubsub-transport
-[gitter-badge]: https://badges.gitter.im/senecajs/seneca.svg
-[gitter-url]: https://gitter.im/senecajs/seneca
-[standard-badge]: https://raw.githubusercontent.com/feross/standard/master/badge.png
-[standard-style]: https://github.com/feross/standard
-[redis]: http://redis.io/
-[install page]: http://redis.io/download
-[MIT]: ./LICENSE
-[Senecajs org]: https://github.com/senecajs/
-[senecajs.org]: http://senecajs.org/
-[Seneca.js]: https://www.npmjs.com/package/seneca
-[github issue]: https://github.com/senecajs/seneca-redis-pubsub-transport/issues
-[examples]: https://github.com/senecajs/seneca-redis-pubsub-transport/tree/master/docs/examples
-[@senecajs]: http://twitter.com/senecajs
-[IANAl]: http://www.iana.org/assignments/uri-schemes/prov/redis
+| Plugin version | Seneca | Node |
+| -------------- | ------ | ---- |
+| 0.4.x | 4 (with seneca-transport 8), 3 | 24, 22 |
+| 0.3.x | 3 and earlier | 4 to 6 (Travis era) |
+
+License: [MIT](LICENSE).
