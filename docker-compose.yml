@@ -1,6 +1,12 @@
-version: '2'
+name: seneca-redis-pubsub-transport
 services:
   redis:
-    build: ./docker
+    image: redis:8.10
+    container_name: seneca-redis-pubsub-transport-redis
     ports:
-      - "6379:6379"
+      - "16382:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20

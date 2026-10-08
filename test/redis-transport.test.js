@@ -1,20 +1,19 @@
-/* Copyright (c) 2014-2015 Richard Rodger */
+/* Copyright (c) 2014-2026 Richard Rodger */
 'use strict'
 
-var Lab = require('lab')
+var { describe, it } = require('node:test')
+var Support = require('./support')
 
-var lab = exports.lab = Lab.script()
-var describe = lab.describe
-var it = lab.it
-
-var SenecaTransportTest = require('seneca-transport-test')
+function cb (fn) {
+  return function () {
+    return new Promise(function (resolve, reject) {
+      fn(function (err) { err ? reject(err) : resolve() })
+    })
+  }
+}
 
 describe('redis-transport', function () {
-  it('happy-any', function (fin) {
-    SenecaTransportTest.foo_test('', require, fin, 'redis', -6379)
-  })
+  it('happy-any', cb(Support.foo_test))
 
-  it('happy-pin', function (fin) {
-    SenecaTransportTest.foo_pintest('', require, fin, 'redis', -6379)
-  })
+  it('happy-pin', cb(Support.foo_pintest))
 })
