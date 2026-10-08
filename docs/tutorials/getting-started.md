@@ -15,8 +15,14 @@ npm run services:up
 In your own project install Seneca, seneca-transport and this plugin:
 
 ```sh
-npm install seneca seneca-transport @seneca/redis-pubsub-transport redis@2
+npm install --legacy-peer-deps seneca@4.0.0-rc5 seneca-transport @seneca/redis-pubsub-transport redis@2
 ```
+
+`seneca` alone installs the 3.x `latest` release (the `next` dist-tag
+also points at 3.x), so pin the Seneca 4 prerelease. The published
+`seneca-transport` declares `peer seneca >=3`, which excludes the
+prerelease, so `--legacy-peer-deps` is needed until Seneca 4.0.0 is
+published.
 
 Seneca 4 has no network transport in its core, and this plugin uses the
 utilities that `seneca-transport` exports, so load `seneca-transport`
