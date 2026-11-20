@@ -14,7 +14,7 @@ var fafmap = {}
 
 function make_seneca () {
   return Seneca({ log: 'silent' })
-    .use('seneca-transport') // Seneca 4 has no network transport in core.
+    .use('@seneca/transport') // Seneca 4 has no network transport in core.
     .use(require('..'))
 }
 
