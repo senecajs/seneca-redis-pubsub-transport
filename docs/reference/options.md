@@ -14,6 +14,11 @@ The plugin keeps one block of connection defaults under the key `redis`.
 | `redis.timeout` | number | Seneca `timeout` option minus 555 (21667 with the Seneca 4 default of 22222), or 22222 if Seneca has no `timeout` | Copied into the listen and client settings. Neither this plugin nor the `@seneca/transport` utilities read it. |
 | `redis.url` | string | none | A Redis URL, `redis://[user][:password@]host[:port][/db]`. When set it is used instead of `host` and `port`. |
 
+Seneca supplies its default transport port (10101) to every `listen` and
+`client` call that has no `port`, and that per-call value overrides
+`redis.port` (Seneca 3 did the same). In practice, pass `port` (or `url`)
+on each call.
+
 ## Where options come from
 
 The plugin builds its options with `seneca.util.deep` from, in
