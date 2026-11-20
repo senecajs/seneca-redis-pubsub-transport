@@ -14,7 +14,7 @@ Goal: point the transport at your Redis server.
 
    ```js
    seneca
-     .use('seneca-transport')
+     .use('@seneca/transport')
      .use('@seneca/redis-pubsub-transport', { redis: { host: 'redis.internal' } })
    ```
 

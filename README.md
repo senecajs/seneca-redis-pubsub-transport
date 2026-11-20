@@ -3,8 +3,8 @@
 A [Seneca](https://www.npmjs.com/package/seneca) transport plugin that
 sends messages over [Redis](https://redis.io/) pub/sub. It is a broadcast
 transport: every subscribed service receives every message. Works with
-Seneca 4 (tested with 4.0.0-rc5 and 4.0.0) and Seneca 3, on Node 24 and
-22, with Redis 8.
+Seneca 4 and `@seneca/transport` 9, on Node.js 24 or later, with Redis 7
+and 8. Seneca 3 users stay on `seneca-redis-transport@0.3`.
 
 [![npm version](https://img.shields.io/npm/v/@seneca/redis-pubsub-transport.svg)](https://npmjs.com/package/@seneca/redis-pubsub-transport)
 
@@ -14,14 +14,11 @@ Seneca 4 (tested with 4.0.0-rc5 and 4.0.0) and Seneca 3, on Node 24 and
 ## Install
 
 ```sh
-npm install --legacy-peer-deps seneca@4.0.0-rc5 seneca-transport @seneca/redis-pubsub-transport redis@2
+npm install seneca@^4 @seneca/transport @seneca/redis-pubsub-transport
 ```
 
-`seneca` alone installs the 3.x `latest` release (the `next` dist-tag
-also points at 3.x), so pin the Seneca 4 prerelease. The published
-`seneca-transport` declares `peer seneca >=3`, which excludes the
-prerelease, so `--legacy-peer-deps` is needed until Seneca 4.0.0 is
-published.
+Ask for `seneca@^4`: a bare `seneca` installs the 3.x `latest` release
+until Seneca 4 becomes `latest`.
 
 You also need a running Redis server.
 
@@ -31,7 +28,7 @@ You also need a running Redis server.
 const Seneca = require('seneca')
 
 Seneca()
-  .use('seneca-transport') // Seneca 4 has no network transport in core
+  .use('@seneca/transport') // Seneca 4 has no network transport in core
   .use('@seneca/redis-pubsub-transport')
   .add('color:red', function (msg, reply) {
     reply(null, { hex: '#FF0000' })
@@ -39,7 +36,7 @@ Seneca()
   .listen({ type: 'redis', host: '127.0.0.1', port: 6379 })
 
 Seneca()
-  .use('seneca-transport')
+  .use('@seneca/transport')
   .use('@seneca/redis-pubsub-transport')
   .client({ type: 'redis', host: '127.0.0.1', port: 6379 })
   .act('color:red', console.log)
@@ -76,7 +73,6 @@ once. See [How the transport works](docs/explanation/how-it-works.md).
 | ------- | ------- | --------- |
 | `role:transport,hook:listen,type:redis` | `seneca.listen({type:'redis'})` | [Messages](docs/reference/messages.md) |
 | `role:transport,hook:client,type:redis` | `seneca.client({type:'redis'})` | [Messages](docs/reference/messages.md) |
-| `type:pubsub` variants (legacy) | `listen`/`client` with `type:'pubsub'` | [Messages](docs/reference/messages.md#legacy-type-pubsub) |
 
 | Option | Default | Reference |
 | ------ | ------- | --------- |
@@ -88,8 +84,8 @@ once. See [How the transport works](docs/explanation/how-it-works.md).
 ## Contributing
 
 The [Senecajs org](https://github.com/senecajs/) encourages open
-participation. To run the tests (Node 24 or 22, Seneca 4 prerelease as
-devDependency):
+participation. To run the tests (Node.js 24 or later; Seneca 4 and
+`@seneca/transport` are devDependencies):
 
 ```sh
 npm run services:up   # Redis 8.10 on host port 16382
@@ -105,12 +101,12 @@ The GitHub Actions workflow is delivered as a patch in
 ## Background
 
 The plugin started in 2014 as an example of a Seneca transport and was
-renamed from seneca-redis-transport to seneca-redis-pubsub-transport.
-See [CHANGES.md](CHANGES.md).
+published as `seneca-redis-transport` up to 0.3.0. From 1.0.0 it is
+`@seneca/redis-pubsub-transport`. See [CHANGES.md](CHANGES.md).
 
 | Plugin version | Seneca | Node |
 | -------------- | ------ | ---- |
-| 0.4.x | 4 (with seneca-transport 8), 3 | 24, 22 |
-| 0.3.x | 3 and earlier | 4 to 6 (Travis era) |
+| 1.x | 4 (with `@seneca/transport` 9) | 24 and later |
+| 0.3.x (`seneca-redis-transport`) | 3 and earlier | 4 to 6 (Travis era) |
 
 License: [MIT](LICENSE).

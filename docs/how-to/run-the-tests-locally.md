@@ -9,7 +9,7 @@ Goal: run `npm test` against a real Redis server.
    npm run services:up
    ```
 
-2. Install and test with Node 24 (or 22):
+2. Install and test with Node.js 24 or later:
 
    ```sh
    npm install

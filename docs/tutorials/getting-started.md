@@ -5,28 +5,26 @@ messages to each other through Redis pub/sub.
 
 ## Install
 
-You need Node 22 or 24, and a Redis server. This repository's
+You need Node.js 24 or later, and a Redis server. This repository's
 `docker-compose.yml` starts Redis 8.10 on host port 16382:
 
 ```sh
 npm run services:up
 ```
 
-In your own project install Seneca, seneca-transport and this plugin:
+In your own project install Seneca, `@seneca/transport` and this plugin:
 
 ```sh
-npm install --legacy-peer-deps seneca@4.0.0-rc5 seneca-transport @seneca/redis-pubsub-transport redis@2
+npm install seneca@^4 @seneca/transport @seneca/redis-pubsub-transport
 ```
 
-`seneca` alone installs the 3.x `latest` release (the `next` dist-tag
-also points at 3.x), so pin the Seneca 4 prerelease. The published
-`seneca-transport` declares `peer seneca >=3`, which excludes the
-prerelease, so `--legacy-peer-deps` is needed until Seneca 4.0.0 is
-published.
+Ask for `seneca@^4`: a bare `seneca` installs the 3.x `latest` release
+until Seneca 4 becomes `latest`.
 
 Seneca 4 has no network transport in its core, and this plugin uses the
-utilities that `seneca-transport` exports, so load `seneca-transport`
-before this plugin.
+utilities that `@seneca/transport` exports, so load `@seneca/transport`
+before this plugin. Without it this plugin fails to load with a message
+that says so.
 
 ## The program
 
@@ -43,7 +41,7 @@ const redis = {
 }
 
 const service = Seneca({ log: 'silent' })
-  .use('seneca-transport')
+  .use('@seneca/transport')
   .use(require('../..')) // in your project: .use('@seneca/redis-pubsub-transport')
   .add('color:red', function (msg, reply) {
     reply(null, { hex: '#FF0000', name: msg.name })
@@ -52,7 +50,7 @@ const service = Seneca({ log: 'silent' })
 
 service.ready(function () {
   const client = Seneca({ log: 'silent' })
-    .use('seneca-transport')
+    .use('@seneca/transport')
     .use(require('../..'))
     .client(redis)
 
@@ -77,7 +75,7 @@ Run it:
 node docs/examples/getting-started.js
 ```
 
-Output (Seneca 4.0.0-rc5, Node 24):
+Output (Seneca 4.0.0, Node.js 24):
 
 ```
 reply: { hex: '#FF0000', name: 'rose' }

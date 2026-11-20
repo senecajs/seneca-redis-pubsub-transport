@@ -11,7 +11,7 @@ const redis = {
 }
 
 const service = Seneca({ log: 'silent' })
-  .use('seneca-transport')
+  .use('@seneca/transport')
   .use(require('../..')) // in your project: .use('@seneca/redis-pubsub-transport')
   .add('color:red', function (msg, reply) {
     reply(null, { hex: '#FF0000', name: msg.name })
@@ -20,7 +20,7 @@ const service = Seneca({ log: 'silent' })
 
 service.ready(function () {
   const client = Seneca({ log: 'silent' })
-    .use('seneca-transport')
+    .use('@seneca/transport')
     .use(require('../..'))
     .client(redis)
 
