@@ -11,7 +11,7 @@ const port = parseInt(process.env.SENECA_TEST_REDIS_PORT || '16382', 10)
 const redis = { type: 'redis', host, port }
 
 const service = Seneca({ log: 'silent' })
-  .use('seneca-transport')
+  .use('@seneca/transport')
   .use(require('../..'))
   .add('role:math,cmd:sum', function (msg, reply) {
     reply(null, { answer: msg.left + msg.right })
@@ -24,7 +24,7 @@ const service = Seneca({ log: 'silent' })
 
 service.ready(function () {
   const client = Seneca({ log: 'silent' })
-    .use('seneca-transport')
+    .use('@seneca/transport')
     .use(require('../..'))
     .client({ ...redis, pin: 'role:math,cmd:*' })
     .client({ ...redis, pin: 'role:text,cmd:*' })

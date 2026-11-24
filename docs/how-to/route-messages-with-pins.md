@@ -25,7 +25,7 @@ Goal: send different message patterns over different Redis channels.
    node docs/examples/pins.js
    ```
 
-   Output (Seneca 4.0.0-rc5, Node 24):
+   Output (Seneca 4.0.0, Node.js 24):
 
    ```
    sum: { answer: 3 }

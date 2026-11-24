@@ -14,7 +14,7 @@ Goal: point the transport at your Redis server.
 
    ```js
    seneca
-     .use('seneca-transport')
+     .use('@seneca/transport')
      .use('@seneca/redis-pubsub-transport', { redis: { host: 'redis.internal' } })
    ```
 
@@ -27,4 +27,6 @@ Goal: point the transport at your Redis server.
    ```
 
 A `url` overrides `host` and `port`. Per-call settings win over plugin
-options. See [Options](../reference/options.md) for the full list.
+options. Seneca fills in its default transport port (10101) on every call
+without a `port`, which overrides `redis.port`, so pass `port` (or `url`)
+on each call. See [Options](../reference/options.md) for the full list.
